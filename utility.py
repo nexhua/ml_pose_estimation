@@ -7,6 +7,7 @@ import matplotlib.pyplot as plt
 import configurations
 import os
 import numpy as np
+import pandas as pd
 
 
 class Util:
@@ -39,7 +40,6 @@ class Util:
         target_y, target_x, target_c = target_size
         ratio_y = float(target_y) / float(org_y)
         ratio_x = float(target_x) / float(org_x)
-        print()
         for item in scaled:
             x = item[0]
             y = item[1]
@@ -47,7 +47,7 @@ class Util:
             new_y = int(round(ratio_y * y))
             item[0] = new_x
             item[1] = new_y
-        return scaled
+        return np.ndarray.flatten(scaled)
 
     def crop_square(self, img, size, interpolation=cv2.INTER_AREA):
         h, w = img.shape[:2]
@@ -61,7 +61,7 @@ class Util:
 
         return resized
 
-    def draw_keypoints(self, img, keypoints, radius=5, color=(0,0,255)):
+    def draw_keypoints(self, img, keypoints, radius=5, color=(0, 0, 255)):
         coords = keypoints.reshape(-1, 2)
 
         for coord in coords:
@@ -69,3 +69,22 @@ class Util:
             y = coord[1]
             img = self.draw_circle(img, x, y, radius, color)
         return img
+
+    def get_column_names(self):
+        column_names = []
+        for i in range(self.config.KEYPOINT_COUNT + 1):
+            column_names.append("x_{0}".format(i + 1))
+            column_names.append("y_{0}".format(i + 1))
+
+    def get_dataframe(self):
+        PATH = os.path.join(self.config.IMAGES_BASE_DIR, "train")
+        file_names = sorted(os.listdir(PATH))
+
+        column_names = self.get_column_names()
+
+        LABELS = np.load("./annot/train_label.npy")
+
+        df = pd.DataFrame(data=LABELS, columns=column_names)
+        df.insert(0, "file_names", file_names, False)
+
+        return df

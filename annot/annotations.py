@@ -28,7 +28,7 @@ class Data:
         return json.load(file)
 
     def get_valid(self):
-        VALID_JSON_DIR = "C:\\Users\\kocam\\Projects\\Datascience\\Projects\\ml_pose_estimation\\annot\\test.json"
+        VALID_JSON_DIR = "C:\\Users\\kocam\\Projects\\Datascience\\Projects\\ml_pose_estimation\\annot\\valid.json"
 
         file = open(VALID_JSON_DIR)
         return json.load(file)
