@@ -8,11 +8,13 @@ import configurations
 import os
 import numpy as np
 import pandas as pd
+from preprocessing import Label
 
 
 class Util:
     def __init__(self):
         self.config = configurations.Configuration()
+        self.label_loader = Label()
 
     def imread_from_id(self, id):
         """
@@ -78,14 +80,14 @@ class Util:
         return column_names
 
     def get_dataframe(self):
-        PATH = os.path.join(self.config.IMAGES_BASE_DIR, "train")
-        file_names = sorted(os.listdir(PATH))
+        path = os.path.join(self.config.IMAGES_BASE_DIR, "train")
+        file_names = sorted(os.listdir(path))
 
         column_names = self.get_column_names()
 
-        LABELS = np.load("./annot/train_label.npy")
+        labels = self.label_loader.get_y_train()
 
-        df = pd.DataFrame(data=LABELS, columns=column_names)
+        df = pd.DataFrame(data=labels, columns=column_names)
         df.insert(0, "file_names", file_names, False)
 
         return df

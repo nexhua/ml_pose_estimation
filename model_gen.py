@@ -11,28 +11,17 @@ class Model:
     def create_model(self):
         model = models.Sequential()
 
-        model.add(layers.Conv2D(64, (3, 3), activation="relu",
+        model.add(layers.Conv2D(32, (3, 3), activation='relu',
                   input_shape=self.config.INPUT_DIMS))
-        model.add(layers.Conv2D(64, (3, 3), activation="relu"))
-        model.add(layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
-
-        model.add(layers.Conv2D(128, (3, 3), activation="relu"))
-        model.add(layers.Conv2D(128, (3, 3), activation="relu"))
-        model.add(layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
-
-        model.add(layers.Conv2D(256, (3, 3), activation="relu"))
-        model.add(layers.Conv2D(256, (3, 3), activation="relu"))
-        model.add(layers.Conv2D(256, (3, 3), activation="relu"))
-        model.add(layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
-
-        model.add(layers.Conv2D(512, (3, 3), activation="relu"))
-        model.add(layers.Conv2D(512, (3, 3), activation="relu"))
-        model.add(layers.Conv2D(512, (3, 3), activation="relu"))
-        model.add(layers.MaxPool2D(pool_size=(2, 2), strides=(2, 2)))
-
+        model.add(layers.MaxPooling2D((2, 2)))
+        model.add(layers.Conv2D(64, (3, 3), activation='relu'))
+        model.add(layers.MaxPooling2D((2, 2)))
+        model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+        model.add(layers.MaxPooling2D((2, 2)))
+        model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+        model.add(layers.MaxPooling2D((2, 2)))
         model.add(layers.Flatten())
-        model.add(layers.Dense(1024, activation="relu"))
-        model.add(layers.Dense(512, activation="relu"))
+        model.add(layers.Dense(512, activation='relu'))
         model.add(layers.Dense(self.config.DIM))
 
         return model
@@ -49,7 +38,6 @@ class Model:
 
         conv_base.trainable = False
         return model
-
 
     def compile(self, model):
         model.compile(loss='mean_squared_error', optimizer='adam', metrics=[
