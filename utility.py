@@ -75,6 +75,7 @@ class Util:
         for i in range(self.config.KEYPOINT_COUNT + 1):
             column_names.append("x_{0}".format(i + 1))
             column_names.append("y_{0}".format(i + 1))
+        return column_names
 
     def get_dataframe(self):
         PATH = os.path.join(self.config.IMAGES_BASE_DIR, "train")

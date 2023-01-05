@@ -11,6 +11,6 @@ class Configuration:
         self.KEYPOINT_COUNT = 16
         self.DIM = self.KEYPOINT_COUNT * 2 + 2
         self.INPUT_DIMS = (224, 224, 3)
-        self.BATCH_SIZE = 32
+        self.BATCH_SIZE = 256
         self.EPOCHS = 10
         self.LEN_TRAIN_IMGS = 14679
