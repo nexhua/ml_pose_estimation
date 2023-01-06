@@ -2,6 +2,7 @@ from keras import models
 from keras import layers
 from configurations import Configuration
 from keras.applications import VGG16
+from keras.applications import ResNet50
 
 
 class Model:
@@ -51,6 +52,21 @@ class Model:
         model.add(layers.Dense(self.config.DIM))
 
         conv_base.trainable = False
+        return model
+
+    def create_model_with_resnet(self):
+        backbone = ResNet50(
+            weights="imagenet", include_top=False, input_shape=self.config.INPUT_DIMS
+        )
+
+        model = models.Sequential()
+        model.add(backbone)
+        model.add(layers.Flatten())
+        model.add(layers.Dense(512, activation="relu"))
+        model.add(layers.Dense(256, activation="relu"))
+        model.add(layers.Dense(self.config.DIM))
+
+        backbone.trainable = False
         return model
 
     def compile(self, model):
