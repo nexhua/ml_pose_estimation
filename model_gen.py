@@ -19,9 +19,10 @@ class Model:
         model.add(layers.MaxPooling2D((2, 2)))
         model.add(layers.Conv2D(128, (3, 3), activation='relu'))
         model.add(layers.MaxPooling2D((2, 2)))
+        model.add(layers.Conv2D(128, (3, 3), activation='relu'))
+        model.add(layers.MaxPooling2D((2, 2)))
         model.add(layers.Flatten())
         model.add(layers.Dense(512, activation='relu'))
-        model.add(layers.Dense(256, activation='relu'))
         model.add(layers.Dense(self.config.DIM))
 
         return model
